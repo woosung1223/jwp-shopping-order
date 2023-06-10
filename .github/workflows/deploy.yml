@@ -14,10 +14,6 @@ jobs:
 
       - name: gradle bootjar
         run: |
-          export MYSQL_URL=${{ secrets.MYSQL_URL }}
-          export MYSQL_USERNAME=${{ secrets.MYSQL_USERNAME }}
-          export MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}
-          env
           chmod +x ./gradlew
           ./gradlew bootjar
 
@@ -30,4 +26,9 @@ jobs:
 
       - name: deploy
         run: |
+          env
           sudo java -jar build/libs/jwp-shopping-order.jar --spring.profiles.active=prod &
+        env:
+          MYSQL_URL=${{ secrets.MYSQL_URL }}
+          MYSQL_USERNAME=${{ secrets.MYSQL_USERNAME }}
+          MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}
