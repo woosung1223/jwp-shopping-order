@@ -40,11 +40,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
         resolvers.add(memberArgumentResolver);
     }
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(memberAuthInterceptor)
-                .addPathPatterns("/cart-items/{*path}")
-                .addPathPatterns("/orders/{*path}")
-                .addPathPatterns("/point/{*path}");
-    }
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(memberAuthInterceptor)
+//                .addPathPatterns("/cart-items/{*path}")
+//                .addPathPatterns("/orders/{*path}")
+//                .addPathPatterns("/point/{*path}");
+//    }
 }

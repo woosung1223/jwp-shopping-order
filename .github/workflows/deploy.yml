@@ -14,8 +14,13 @@ jobs:
 
       - name: gradle bootjar
         run: |
+          sudo apt-get install libtcnative-1
           chmod +x ./gradlew
           ./gradlew bootjar
+        env:
+          MYSQL_URL: ${{ secrets.MYSQL_URL }}
+          MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
+          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
 
       - name: kill 8080 port if exist
         run: |
@@ -28,7 +33,3 @@ jobs:
         run: |
           env
           sudo java -jar build/libs/jwp-shopping-order.jar --spring.profiles.active=prod &
-        env:
-          MYSQL_URL=${{ secrets.MYSQL_URL }}
-          MYSQL_USERNAME=${{ secrets.MYSQL_USERNAME }}
-          MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}
