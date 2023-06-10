@@ -27,7 +27,8 @@ jobs:
       - name: deploy
         run: |
           sudo java -jar \
-          | -Ddatasource.url=${{ secrets.MYSQL_URL }} \
-          | -Ddatasource.username=${{ secrets.MYSQL_USERNAME }} \
-          | -Ddatasource.password=${{ secrets.MYSQL_PASSWORD }} \
-          | --spring.profiles.active=prod build/libs/jwp-shopping-order.jar &
+            -Ddatasource.url=${{ secrets.MYSQL_URL }} \
+            -Ddatasource.username=${{ secrets.MYSQL_USERNAME }} \
+            -Ddatasource.password=${{ secrets.MYSQL_PASSWORD }} \
+            --spring.profiles.active=prod \
+            build/libs/jwp-shopping-order.jar &
