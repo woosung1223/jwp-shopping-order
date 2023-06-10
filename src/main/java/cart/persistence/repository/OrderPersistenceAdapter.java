@@ -44,7 +44,7 @@ public class OrderPersistenceAdapter implements OrderRepository {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         namedParameterJdbcTemplate.update(sql, namedParameters, keyHolder);
-        return keyHolder.getKeyAs(Long.class);
+        return keyHolder.getKey().longValue();
     }
 
     @Override
