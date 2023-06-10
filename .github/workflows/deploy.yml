@@ -12,13 +12,6 @@ jobs:
           sudo chown -R ubuntu:ubuntu /home/ubuntu/actions-runner/_work/jwp-shopping-order 
       - uses: actions/checkout@v3
 
-      - name: Copy secrets.env
-        run:
-          echo "MYSQL_URL={{ secrets.MYSQL_URL }}" >> src/main/resources/secrets.env
-          echo "MYSQL_USERNAME={{ secrets.MYSQL_USERNAME }}" >> src/main/resources/secrets.env
-          echo "MYSQL_PASSWORD={{ secrets.MYSQL_PASSWORD }}" >> src/main/resources/secrets.env
-          cat src/main/resources/secrets.env
-
       - name: gradle bootjar
         run: |
           chmod +x ./gradlew
@@ -34,4 +27,6 @@ jobs:
       - name: deploy
         run: |
           env
-          sudo java -jar build/libs/jwp-shopping-order.jar --spring.profiles.active=prod &
+          sudo java -jar build/libs/jwp-shopping-order.jar --spring.profiles.active=prod 
+          --datasource.url=${{ secrets.MYSQL_URL }} --datasource.username=${{ secrets.MYSQL_USERNAME }} 
+          --datasource.password=${{ secrets.MYSQL_PASSWORD }} &
