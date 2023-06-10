@@ -12,16 +12,17 @@ jobs:
           sudo chown -R ubuntu:ubuntu /home/ubuntu/actions-runner/_work/jwp-shopping-order 
       - uses: actions/checkout@v3
 
+      - name: Copy secrets.env
+        run:
+          echo "MYSQL_URL={{ secrets.MYSQL_URL }}" >> src/main/resources/secrets.env
+          echo "MYSQL_USERNAME={{ secrets.MYSQL_USERNAME }}" >> src/main/resources/secrets.env
+          echo "MYSQL_PASSWORD={{ secrets.MYSQL_PASSWORD }}" >> src/main/resources/secrets.env
+          cat src/main/resources/secrets.env
+
       - name: gradle bootjar
         run: |
-          sudo apt-get install libtcnative-1
-          Y
           chmod +x ./gradlew
           ./gradlew bootjar
-        env:
-          MYSQL_URL: ${{ secrets.MYSQL_URL }}
-          MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
-          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
 
       - name: kill 8080 port if exist
         run: |
