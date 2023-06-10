@@ -47,6 +47,6 @@ public class ControllerExceptionHandler {
         logger.error(e.getMessage(), e);
 
         return ResponseEntity.internalServerError()
-                .body(new ExceptionResponse("예기치 못한 오류가 발생했습니다."));
+                .body(new ExceptionResponse(e.getMessage()));
     }
 }
