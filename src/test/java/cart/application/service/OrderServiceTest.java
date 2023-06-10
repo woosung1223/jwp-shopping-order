@@ -6,6 +6,7 @@ import cart.entity.Order;
 import cart.entity.OrderInfo;
 import cart.entity.OrderInfos;
 import cart.entity.Product;
+import cart.entity.ProductImage;
 import cart.exception.application.CartItemNotFoundException;
 import cart.exception.application.MemberNotFoundException;
 import cart.application.repository.CartItemRepository;
@@ -48,14 +49,15 @@ class OrderServiceTest {
     private AuthInfo authInfo;
     private Member member;
     private Product pizza;
+    private ProductImage productImage;
 
     @BeforeEach
     void setup() {
-        orderRequest = new OrderRequest(List.of(1L), 20000L, 5000L, 0L);
-        authInfo = new AuthInfo("teo", "1234");
-        member = new Member(1L, "teo", "1234", 10000);
-        pizza = new Product(1L, "피자", 20000, "https://a.com", 0, true);
-
+        this.orderRequest = new OrderRequest(List.of(1L), 20000L, 5000L, 0L);
+        this.authInfo = new AuthInfo("teo", "1234");
+        this.member = new Member(1L, "teo", "1234", 10000);
+        this.pizza = new Product(1L, "피자", 20000, "https://a.com", 0, true);
+        this.productImage = new ProductImage("피자", 10000, "https://a.com");
     }
 
     @Test
@@ -119,7 +121,7 @@ class OrderServiceTest {
     void getAllOrders() {
         // given
         OrderInfos orderInfos = new OrderInfos(List.of(
-                new OrderInfo(1L, pizza, "피자", 20000L, "https://a.com", 1)));
+                new OrderInfo(1L, pizza, productImage, 1)));
         when(memberRepository.findByEmail(any())).thenReturn(Optional.of(member));
         when(orderRepository.findByMemberId(any())).thenReturn((List.of(
                 new Order(1L, member, orderInfos, 20000L, 5000L, 0L))));
@@ -135,7 +137,7 @@ class OrderServiceTest {
     void getSpecificOrder() {
         // given
         OrderInfos orderInfos = new OrderInfos(List.of(
-                new OrderInfo(1L, pizza, "피자", 20000L, "https://a.com", 1)));
+                new OrderInfo(1L, pizza, productImage, 1)));
         when(memberRepository.findByEmail(any())).thenReturn(Optional.of(member));
         when(orderRepository.findById(any())).thenReturn(Optional.of(
                 new Order(1L, member, orderInfos, 20000L, 5000L, 0L)));

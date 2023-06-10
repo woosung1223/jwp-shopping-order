@@ -3,6 +3,7 @@ package cart.persistence.repository;
 import cart.entity.OrderInfo;
 import cart.entity.OrderInfos;
 import cart.entity.Product;
+import cart.entity.ProductImage;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -29,9 +30,9 @@ class OrderInfosPersistenceAdapter {
             MapSqlParameterSource parameters = new MapSqlParameterSource()
                     .addValue("order_id", orderId)
                     .addValue("product_id", info.getProduct().getId())
-                    .addValue("name", info.getName())
-                    .addValue("price", info.getPrice())
-                    .addValue("image_url", info.getImageUrl())
+                    .addValue("name", info.getProductName())
+                    .addValue("price", info.getProductPrice())
+                    .addValue("image_url", info.getProductImageUrl())
                     .addValue("quantity", info.getQuantity());
             namedParameters.add(parameters);
         }
@@ -46,9 +47,7 @@ class OrderInfosPersistenceAdapter {
         List<OrderInfo> orderInfos = namedParameterJdbcTemplate.query(sql, sqlParameterSource, (rs, rowNum) ->
                 new OrderInfo(rs.getLong("id"),
                         extractProduct(rs),
-                        rs.getString("order_info.name"),
-                        rs.getInt("order_info.price"),
-                        rs.getString("order_info.image_url"),
+                        mapToProductImage(rs),
                         rs.getInt("order_info.quantity")
                 )
         );
@@ -63,5 +62,11 @@ class OrderInfosPersistenceAdapter {
                 rs.getDouble("product.point_ratio"),
                 rs.getBoolean("product.point_available")
         );
+    }
+
+    public ProductImage mapToProductImage(ResultSet rs) throws SQLException {
+        return new ProductImage(rs.getString("order_info.name"),
+                rs.getLong("order_info.price"),
+                rs.getString("order_info.image_url"));
     }
 }

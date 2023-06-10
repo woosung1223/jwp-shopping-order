@@ -3,6 +3,7 @@ package cart.persistence.repository;
 import cart.entity.OrderInfo;
 import cart.entity.OrderInfos;
 import cart.entity.Product;
+import cart.entity.ProductImage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +23,13 @@ class OrderInfosPersistenceAdapterTest {
     private OrderInfosPersistenceAdapter orderInfosPersistenceAdapter;
 
     private Product product;
+    private ProductImage productImage;
 
     @Autowired
     public OrderInfosPersistenceAdapterTest(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.orderInfosPersistenceAdapter = new OrderInfosPersistenceAdapter(namedParameterJdbcTemplate);
         this.product = new Product(1L, "고기", 10000, "https://", 10.0, true);
-
+        this.productImage = new ProductImage("고기", 5000, "https://");
     }
 
     @Test
@@ -35,7 +37,7 @@ class OrderInfosPersistenceAdapterTest {
     void findByOrderId() {
         // given, when
         OrderInfos orderInfos = new OrderInfos(List.of(
-                new OrderInfo(1L, product, "고기", 10000, "https://", 1)));
+                new OrderInfo(1L, product, productImage, 1)));
         orderInfosPersistenceAdapter.insert(orderInfos, 100L);
         OrderInfos found = orderInfosPersistenceAdapter.findByOrderId(100L);
         // then

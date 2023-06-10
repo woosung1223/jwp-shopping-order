@@ -5,6 +5,7 @@ import cart.entity.Order;
 import cart.entity.OrderInfo;
 import cart.entity.OrderInfos;
 import cart.entity.Product;
+import cart.entity.ProductImage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ class OrderPersistenceAdapterTest {
         this.member = new Member(1L, "a@a.com", "1234", 0L);
         this.product = new Product(1L, "고기", 10000, "https://", 10.0, true);
         this.orderInfos = new OrderInfos(List.of(
-                new OrderInfo(1L, product, "고기", 10000, "https://", 1)
+                new OrderInfo(1L, product, new ProductImage("고기", 5000, "https://"), 1)
         ));
     }
 

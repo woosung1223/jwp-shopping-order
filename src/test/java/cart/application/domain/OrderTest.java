@@ -1,5 +1,6 @@
 package cart.application.domain;
 
+import cart.entity.ProductImage;
 import cart.exception.application.ExceedAvailablePointException;
 import cart.exception.application.IllegalMemberException;
 import cart.entity.Member;
@@ -24,10 +25,12 @@ class OrderTest {
 
     @BeforeEach
     void setup() {
-        member = new Member(0L, "", "", 7000L);
-        orderInfos = new OrderInfos(List.of(
-                new OrderInfo(0L, new Product(0L, "", 1000, "", 10.0, true), "", 1000, "", 4),
-                new OrderInfo(0L, new Product(0L, "", 1000, "", 10.0, true), "", 1000, "", 3)
+        Product product = new Product(0L, "", 1000, "", 10.0, true);
+        ProductImage productImage = new ProductImage("", 1000, "");
+        this.member = new Member(0L, "", "", 7000L);
+        this.orderInfos = new OrderInfos(List.of(
+                new OrderInfo(0L, product, productImage, 4L),
+                new OrderInfo(0L, product, productImage, 3L)
         ));
     }
 

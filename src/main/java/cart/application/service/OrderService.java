@@ -6,6 +6,7 @@ import cart.entity.Order;
 import cart.entity.OrderInfo;
 import cart.entity.OrderInfos;
 import cart.entity.Product;
+import cart.entity.ProductImage;
 import cart.exception.application.CartItemNotFoundException;
 import cart.exception.application.MemberNotFoundException;
 import cart.exception.application.OrderNotFoundException;
@@ -78,8 +79,9 @@ public class OrderService {
 
     private OrderInfo makeCartItemToOrderInfo(CartItem cartItem) {
         Product product = cartItem.getProduct();
-        return new OrderInfo(null, product, product.getName(), product.getPrice(),
-                product.getImageUrl(), cartItem.getQuantity());
+        return new OrderInfo(null, product,
+                new ProductImage(product.getName(), product.getPrice(), product.getImageUrl()),
+                cartItem.getQuantity());
     }
 
     @Transactional(readOnly = true)
@@ -99,8 +101,8 @@ public class OrderService {
 
     private OrderDto makeOrderDto(OrderInfo orderInfo) {
         Product product = orderInfo.getProduct();
-        return new OrderDto(product.getId(), product.getPrice(), product.getName(),
-                product.getImageUrl(), orderInfo.getQuantity());
+        return new OrderDto(product.getId(), orderInfo.getProductPrice(), orderInfo.getProductName(),
+                orderInfo.getProductImageUrl(), orderInfo.getQuantity());
     }
 
     @Transactional(readOnly = true)
