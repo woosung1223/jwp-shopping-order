@@ -15,6 +15,7 @@ jobs:
       - name: gradle bootjar
         run: |
           sudo apt-get install libtcnative-1
+          Y
           chmod +x ./gradlew
           ./gradlew bootjar
         env:
