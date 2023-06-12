@@ -40,7 +40,7 @@ public class CartItemPersistenceAdapter implements CartItemRepository {
                 .addValue("quantity", cartItem.getQuantity());
 
         namedParameterJdbcTemplate.update(sql, namedParameters, keyHolder);
-        return findById(keyHolder.getKeyAs(Long.class))
+        return findById(keyHolder.getKey().longValue())
                 .orElseThrow();
     }
 

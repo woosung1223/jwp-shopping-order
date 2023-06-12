@@ -29,7 +29,7 @@ public class ProductPersistenceAdapter implements ProductRepository {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(product);
         namedParameterJdbcTemplate.update(sql, namedParameters, keyHolder);
-        return findById(keyHolder.getKeyAs(Long.class))
+        return findById(keyHolder.getKey().longValue())
                 .orElseThrow();
     }
 
