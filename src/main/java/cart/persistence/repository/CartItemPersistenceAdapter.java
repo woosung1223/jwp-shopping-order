@@ -2,8 +2,9 @@ package cart.persistence.repository;
 
 import cart.entity.CartItem;
 import cart.entity.Member;
-import cart.entity.Product;
 import cart.application.repository.CartItemRepository;
+import cart.entity.PointPolicy;
+import cart.entity.Product;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -109,7 +110,7 @@ public class CartItemPersistenceAdapter implements CartItemRepository {
             String imageUrl = rs.getString("product.image_url");
             double pointRatio = rs.getDouble("product.point_ratio");
             boolean pointAvailable = rs.getBoolean("product.point_available");
-            return new Product(productId, name, price, imageUrl, pointRatio, pointAvailable);
+            return new Product(productId, name, price, imageUrl, pointRatio, PointPolicy.of(pointAvailable));
         }
 
         public static Member mapToMember(ResultSet rs) throws SQLException {

@@ -2,6 +2,7 @@ package cart.persistence.repository;
 
 import cart.entity.OrderInfo;
 import cart.entity.OrderInfos;
+import cart.entity.PointPolicy;
 import cart.entity.Product;
 import cart.entity.ProductImage;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -60,7 +61,7 @@ class OrderInfosPersistenceAdapter {
                 rs.getInt("product.price"),
                 rs.getString("product.image_url"),
                 rs.getDouble("product.point_ratio"),
-                rs.getBoolean("product.point_available")
+                PointPolicy.of(rs.getBoolean("product.point_available"))
         );
     }
 

@@ -5,6 +5,7 @@ import cart.entity.Member;
 import cart.entity.Order;
 import cart.entity.OrderInfo;
 import cart.entity.OrderInfos;
+import cart.entity.PointPolicy;
 import cart.entity.Product;
 import cart.entity.ProductImage;
 import cart.exception.application.CartItemNotFoundException;
@@ -56,7 +57,7 @@ class OrderServiceTest {
         this.orderRequest = new OrderRequest(List.of(1L), 20000L, 5000L, 0L);
         this.authInfo = new AuthInfo("teo", "1234");
         this.member = new Member(1L, "teo", "1234", 10000);
-        this.pizza = new Product(1L, "피자", 20000, "https://a.com", 0, true);
+        this.pizza = new Product(1L, "피자", 20000, "https://a.com", 0, PointPolicy.of(true));
         this.productImage = new ProductImage("피자", 10000, "https://a.com");
     }
 

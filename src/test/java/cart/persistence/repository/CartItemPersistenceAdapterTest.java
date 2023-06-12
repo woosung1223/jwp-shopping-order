@@ -2,6 +2,7 @@ package cart.persistence.repository;
 
 import cart.entity.CartItem;
 import cart.entity.Member;
+import cart.entity.PointPolicy;
 import cart.entity.Product;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,8 +15,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.in;
-import static org.junit.jupiter.api.Assertions.*;
 
 @JdbcTest
 @Sql({"classpath:truncate.sql", "classpath:data.sql"})
@@ -31,7 +30,7 @@ class CartItemPersistenceAdapterTest {
         this.cartItemPersistenceAdapter = new CartItemPersistenceAdapter(namedParameterJdbcTemplate);
 
         this.member = new Member(1L, "a@a.com", "1234", 20000);
-        this.product = new Product(1L, "치킨", 10000, "https://", 10.0, true);
+        this.product = new Product(1L, "치킨", 10000, "https://", 10.0, PointPolicy.of(true));
     }
 
     @Test

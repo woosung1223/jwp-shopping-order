@@ -1,5 +1,6 @@
 package cart.persistence.repository;
 
+import cart.entity.PointPolicy;
 import cart.entity.Product;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,8 +13,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.in;
-import static org.junit.jupiter.api.Assertions.*;
 
 @JdbcTest
 @Sql({"classpath:truncate.sql", "classpath:data.sql"})
@@ -26,7 +25,7 @@ class ProductPersistenceAdapterTest {
     @Autowired
     public ProductPersistenceAdapterTest(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.productPersistenceAdapter = new ProductPersistenceAdapter(namedParameterJdbcTemplate);
-        this.product = new Product(1L, "고기", 10000, "https://", 10.0, true);
+        this.product = new Product(1L, "고기", 10000, "https://", 10.0, PointPolicy.of(true));
     }
 
     @Test
@@ -67,7 +66,7 @@ class ProductPersistenceAdapterTest {
         Product inserted = productPersistenceAdapter.insert(product);
         // when
         productPersistenceAdapter.update(new Product(inserted.getId(), "회", product.getPrice(),
-                product.getImageUrl(), product.getPointRatio(), product.isPointAvailable()));
+                product.getImageUrl(), product.getPointRatio(), product.getPointPolicy()));
         Optional<Product> found = productPersistenceAdapter.findById(inserted.getId());
         // then
         assertThat(found.get().getName()).isEqualTo("회");

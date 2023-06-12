@@ -1,6 +1,7 @@
 package cart.application.service;
 
 import cart.application.repository.ProductRepository;
+import cart.entity.PointPolicy;
 import cart.entity.Product;
 import cart.presentation.dto.request.ProductRequest;
 import cart.presentation.dto.response.ProductResponse;
@@ -32,8 +33,8 @@ class ProductServiceTest {
 
     @BeforeEach
     void setup() {
-        pizza = new Product(1L, "피자", 20000, "https://a.com", 10.0, true);
-        chicken = new Product(2L, "치킨", 30000, "https://b.com", 0.0, false);
+        pizza = new Product(1L, "피자", 20000, "https://a.com", 10.0, PointPolicy.of(true));
+        chicken = new Product(2L, "치킨", 30000, "https://b.com", 0.0, PointPolicy.of(false));
     }
 
     @Test
@@ -63,7 +64,8 @@ class ProductServiceTest {
     @DisplayName("상품을 생성할 수 있다")
     void createProduct() {
         // given
-        when(productRepository.insert(any())).thenReturn(new Product(3L, "오이", 2000, "https://oi.com", 0.0, false));
+        when(productRepository.insert(any())).thenReturn(
+                new Product(3L, "오이", 2000, "https://oi.com", 0.0, PointPolicy.of(false)));
         ProductRequest request = new ProductRequest("오이", 2000L, "https://oi.com", 0.0, false);
         // when
         Long productId = productService.createProduct(request);

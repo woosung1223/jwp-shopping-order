@@ -1,5 +1,7 @@
 package cart.application.domain;
 
+import cart.entity.PointPolicy;
+import cart.entity.Product;
 import cart.entity.ProductImage;
 import cart.exception.application.ExceedAvailablePointException;
 import cart.exception.application.IllegalMemberException;
@@ -7,7 +9,6 @@ import cart.entity.Member;
 import cart.entity.Order;
 import cart.entity.OrderInfo;
 import cart.entity.OrderInfos;
-import cart.entity.Product;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,7 +26,7 @@ class OrderTest {
 
     @BeforeEach
     void setup() {
-        Product product = new Product(0L, "", 1000, "", 10.0, true);
+        Product product = new Product(0L, "", 1000, "", 10.0, PointPolicy.of(true));
         ProductImage productImage = new ProductImage("", 1000, "");
         this.member = new Member(0L, "", "", 7000L);
         this.orderInfos = new OrderInfos(List.of(

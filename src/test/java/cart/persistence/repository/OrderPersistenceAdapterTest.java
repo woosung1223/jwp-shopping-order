@@ -4,6 +4,7 @@ import cart.entity.Member;
 import cart.entity.Order;
 import cart.entity.OrderInfo;
 import cart.entity.OrderInfos;
+import cart.entity.PointPolicy;
 import cart.entity.Product;
 import cart.entity.ProductImage;
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +18,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @JdbcTest
 @Sql({"classpath:truncate.sql", "classpath:data.sql"})
@@ -33,7 +33,7 @@ class OrderPersistenceAdapterTest {
     public OrderPersistenceAdapterTest(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.orderPersistenceAdapter = new OrderPersistenceAdapter(namedParameterJdbcTemplate);
         this.member = new Member(1L, "a@a.com", "1234", 0L);
-        this.product = new Product(1L, "고기", 10000, "https://", 10.0, true);
+        this.product = new Product(1L, "고기", 10000, "https://", 10.0, PointPolicy.of(true));
         this.orderInfos = new OrderInfos(List.of(
                 new OrderInfo(1L, product, new ProductImage("고기", 5000, "https://"), 1)
         ));

@@ -1,8 +1,9 @@
 package cart.application.service;
 
+import cart.entity.PointPolicy;
+import cart.entity.Product;
 import cart.exception.application.ProductNotFoundException;
 import cart.application.repository.ProductRepository;
-import cart.entity.Product;
 import cart.presentation.dto.request.ProductRequest;
 import cart.presentation.dto.response.ProductResponse;
 import org.springframework.stereotype.Service;
@@ -37,19 +38,23 @@ public class ProductService {
     }
 
     public Long createProduct(ProductRequest productRequest) {
-        Product product = new Product(null, productRequest.getName(), productRequest.getPrice(),
-                productRequest.getImageUrl(), productRequest.getPointRatio(), productRequest.getPointAvailable());
+        Product product = mapProductFrom(null, productRequest);
         Product inserted = productRepository.insert(product);
         return inserted.getId();
     }
 
     public void updateProduct(Long productId, ProductRequest productRequest) {
-        Product product = new Product(productId, productRequest.getName(), productRequest.getPrice(),
-                productRequest.getImageUrl(), productRequest.getPointRatio(), productRequest.getPointAvailable());
+        Product product = mapProductFrom(productId, productRequest);
         productRepository.update(product);
     }
 
     public void deleteProduct(Long productId) {
         productRepository.delete(productId);
+    }
+
+    private Product mapProductFrom(Long productId, ProductRequest productRequest) {
+        return new Product(productId, productRequest.getName(), productRequest.getPrice(),
+                productRequest.getImageUrl(), productRequest.getPointRatio(),
+                PointPolicy.of(productRequest.getPointAvailable()));
     }
 }

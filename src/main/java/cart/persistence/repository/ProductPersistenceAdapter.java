@@ -1,8 +1,8 @@
 package cart.persistence.repository;
 
-import cart.entity.Product;
 import cart.application.repository.ProductRepository;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import cart.entity.PointPolicy;
+import cart.entity.Product;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -25,9 +25,15 @@ public class ProductPersistenceAdapter implements ProductRepository {
     @Override
     public Product insert(Product product) {
         String sql = "INSERT INTO product (name, price, image_url, point_ratio, point_available) " +
-                "VALUES (:name, :price, :imageUrl, :pointRatio, :pointAvailable)";
+                "VALUES (:name, :price, :image_url, :point_ratio, :point_available)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(product);
+        SqlParameterSource namedParameters = new MapSqlParameterSource()
+                .addValue("name", product.getName())
+                .addValue("price", product.getPrice())
+                .addValue("image_url", product.getImageUrl())
+                .addValue("point_ratio", product.getPointRatio())
+                .addValue("point_available", product.getPointPolicy().isPointAvailable());
+
         namedParameterJdbcTemplate.update(sql, namedParameters, keyHolder);
         return findById(keyHolder.getKey().longValue())
                 .orElseThrow();
@@ -44,7 +50,7 @@ public class ProductPersistenceAdapter implements ProductRepository {
                 rs.getInt("price"),
                 rs.getString("image_url"),
                 rs.getDouble("point_ratio"),
-                rs.getBoolean("point_available")
+                PointPolicy.of(rs.getBoolean("point_available"))
         )).stream().findAny();
     }
 
@@ -57,7 +63,7 @@ public class ProductPersistenceAdapter implements ProductRepository {
                 rs.getInt("price"),
                 rs.getString("image_url"),
                 rs.getDouble("point_ratio"),
-                rs.getBoolean("point_available")
+                PointPolicy.of(rs.getBoolean("point_available"))
         ));
     }
 
@@ -70,7 +76,7 @@ public class ProductPersistenceAdapter implements ProductRepository {
                 .addValue("price", product.getPrice())
                 .addValue("image_url", product.getImageUrl())
                 .addValue("point_ratio", product.getPointRatio())
-                .addValue("point_available", product.isPointAvailable())
+                .addValue("point_available", product.getPointPolicy().isPointAvailable())
                 .addValue("id", product.getId());
 
         namedParameterJdbcTemplate.update(sql, namedParameters);

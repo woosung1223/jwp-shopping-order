@@ -7,22 +7,19 @@ public class Product {
     private final long price;
     private final String imageUrl;
     private final double pointRatio;
-    private final boolean pointAvailable;
+    private final PointPolicy pointPolicy;
 
-    public Product(Long id, String name, long price, String imageUrl, double pointRatio, boolean pointAvailable) {
+    public Product(Long id, String name, long price, String imageUrl, double pointRatio, PointPolicy pointPolicy) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
         this.pointRatio = pointRatio;
-        this.pointAvailable = pointAvailable;
+        this.pointPolicy = pointPolicy;
     }
 
     public long calculateAvailablePoint() {
-        if (pointAvailable) {
-            return price;
-        }
-        return 0;
+        return pointPolicy.calculatePoint(price);
     }
 
     public long calculatePointToEarn() {
@@ -50,7 +47,7 @@ public class Product {
         return pointRatio;
     }
 
-    public boolean isPointAvailable() {
-        return pointAvailable;
+    public PointPolicy getPointPolicy() {
+        return pointPolicy;
     }
 }

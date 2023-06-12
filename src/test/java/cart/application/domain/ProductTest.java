@@ -1,5 +1,6 @@
 package cart.application.domain;
 
+import cart.entity.PointPolicy;
 import cart.entity.Product;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,7 +13,7 @@ class ProductTest {
     @DisplayName("포인트 사용가능 상품이라면, 상품 가격만큼 사용할 수 있다")
     void calculateAvailablePoint() {
         // given
-        Product product = new Product(0L, "", 1000, "", 0.0, true);
+        Product product = new Product(0L, "", 1000, "", 0.0, PointPolicy.of(true));
         // when
         long point = product.calculateAvailablePoint();
         // then
@@ -23,7 +24,7 @@ class ProductTest {
     @DisplayName("포인트 사용 불가능 상품이라면, 0원을 반환한다")
     void calculateAvailablePoint_notAvailable() {
         // given
-        Product product = new Product(0L, "", 1000, "", 0.0, false);
+        Product product = new Product(0L, "", 1000, "", 0.0, PointPolicy.of(false));
         // when
         long point = product.calculateAvailablePoint();
         // then
@@ -34,7 +35,7 @@ class ProductTest {
     @DisplayName("적립될 포인트를 계산할 수 있다")
     void calculatePointToEarn() {
         // given
-        Product product = new Product(0L, "", 1000, "", 10.0, false);
+        Product product = new Product(0L, "", 1000, "", 10.0, PointPolicy.of(false));
         // when
         long earned = product.calculatePointToEarn();
         // then

@@ -1,12 +1,13 @@
 package cart.application.service;
 
-import cart.entity.CartItem;
-import cart.entity.Member;
-import cart.entity.Product;
-import cart.exception.application.IllegalMemberException;
 import cart.application.repository.CartItemRepository;
 import cart.application.repository.MemberRepository;
 import cart.application.repository.ProductRepository;
+import cart.entity.CartItem;
+import cart.entity.Member;
+import cart.entity.PointPolicy;
+import cart.entity.Product;
+import cart.exception.application.IllegalMemberException;
 import cart.presentation.dto.request.AuthInfo;
 import cart.presentation.dto.request.CartItemQuantityRequest;
 import cart.presentation.dto.request.CartItemRequest;
@@ -26,7 +27,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -49,7 +49,7 @@ class CartItemServiceTest {
     void setup() {
         authInfo = new AuthInfo("teo", "1234");
         member = new Member(1L, "teo", "1234", 0);
-        pizza = new Product(1L, "피자", 20000, "https://a.com", 0, false);
+        pizza = new Product(1L, "피자", 20000, "https://a.com", 0, PointPolicy.of(false));
     }
 
     @Test

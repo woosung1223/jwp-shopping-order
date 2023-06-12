@@ -23,7 +23,7 @@ public class ProductResponse {
 
     public static ProductResponse of(Product product) {
         return new ProductResponse(product.getId(), product.getName(), product.getPrice(),
-                product.getImageUrl(), product.getPointRatio(), product.isPointAvailable());
+                product.getImageUrl(), product.getPointRatio(), product.getPointPolicy().isPointAvailable());
     }
 
     public Long getId() {

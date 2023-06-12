@@ -2,6 +2,7 @@ package cart.persistence.repository;
 
 import cart.entity.OrderInfo;
 import cart.entity.OrderInfos;
+import cart.entity.PointPolicy;
 import cart.entity.Product;
 import cart.entity.ProductImage;
 import org.junit.jupiter.api.DisplayName;
@@ -14,7 +15,6 @@ import org.springframework.test.context.jdbc.Sql;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @JdbcTest
 @Sql({"classpath:truncate.sql", "classpath:data.sql"})
@@ -28,7 +28,7 @@ class OrderInfosPersistenceAdapterTest {
     @Autowired
     public OrderInfosPersistenceAdapterTest(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.orderInfosPersistenceAdapter = new OrderInfosPersistenceAdapter(namedParameterJdbcTemplate);
-        this.product = new Product(1L, "고기", 10000, "https://", 10.0, true);
+        this.product = new Product(1L, "고기", 10000, "https://", 10.0, PointPolicy.of(true));
         this.productImage = new ProductImage("고기", 5000, "https://");
     }
 
