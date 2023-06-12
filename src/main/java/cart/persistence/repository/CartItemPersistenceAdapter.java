@@ -32,7 +32,7 @@ public class CartItemPersistenceAdapter implements CartItemRepository {
 
     @Override
     public CartItem insert(CartItem cartItem) {
-        String sql = "INSERT INTO CART_ITEM (member_id, product_id, quantity) VALUES (:member_id, :product_id, :quantity)";
+        String sql = "INSERT INTO cart_item (member_id, product_id, quantity) VALUES (:member_id, :product_id, :quantity)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         SqlParameterSource namedParameters = new MapSqlParameterSource()
                 .addValue("member_id", cartItem.getMember().getId())
